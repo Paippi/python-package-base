@@ -1,0 +1,97 @@
+[build-system]
+requires = [
+    # The minimum setuptools version is specific to the PEP 517 backend,
+    # and may be stricter than the version required in `setup.py`
+    "setuptools >= 77.0.3",
+    "wheel",
+
+    # To build with nuitka (binary) uncomment the following line.
+    # "nuitka",
+]
+build-backend = "setuptools.build_meta"
+
+# To build with nuitka (binary) uncomment the following line.
+# build-backend = "nuitka.distutils.Build"
+
+[tool.black]
+line-length = 79
+
+[project]
+# ! CHANGE
+name = "package-name"
+description = "My project"
+dynamic = ["version"]
+
+# Dependencies for a library, use Pipfile for pinned version. I.e., when
+# developing an application you should use Pipfile rather than pyproject.toml.
+dependencies = []
+requires-python = ">= 3.9"
+readme = "README.md"
+# ! CHANGE
+authors = [
+    {name = "Samuli Piippo", email = "28383147+Paippi@users.noreply.github.com "},
+]
+
+license = "LicenseRef-Proprietary"
+license-files = [
+    "LICENSE"
+]
+# ! CHANGE
+maintainers = [
+    {name = "Samuli Piippo", email = "28383147+Paippi@users.noreply.github.com "},
+]
+
+[tool.setuptools.dynamic]
+# ! CHANGE
+version = {attr = "package_name.__version__"}
+
+[project.urls]
+# ! CHANGE
+Repository = "https://github.com/Paippi/python-package-base"
+
+[dependency-groups]
+dev-tools = [
+    "pylint ~= 4.0",
+    "black",
+]
+build-tools = ["build"]
+
+[project.optional-dependencies]
+doc = [
+    "sphinx ~= 7.0",
+    "myst-parser ~= 3.0",
+    "sphinx-argparse-cli >= 1.5",
+    "sphinx-autodoc-typehints >= 1.10",
+    "toml",
+]
+test = [
+    "pytest",
+    "pytest-mock",
+    "tox >= 4.19",
+    "virtualenv-pyenv",
+]
+
+[tool.tox]
+env_list = ["3.9", "3.10", "3.11", "docs", "lint", "build"]
+
+[tool.tox.env_run_base]
+set_env = { VIRTUALENV_DISCOVERY = "pyenv"}
+isolated_build = true
+deps = ["-rrequirements.txt"]
+extras = ["doc", "test"]
+
+commands = [
+    ["python", "-m", "pytest", "{posargs}"],
+]
+
+[tool.tox.env.docs]
+extras = ["docs"]
+commands = [["sphinx-build", "docs/source/", "docs/build/html/", "-W", "-b", "html"]]
+
+[tool.tox.env.lint]
+dependency_groups = ["dev-tools"]
+commands = [["pylint", "src"]]
+
+[tool.tox.build]
+dependency_groups = ["build"]
+commands = [["python", "-m", "build", "-sw"]]

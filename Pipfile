@@ -1,0 +1,17 @@
+[[source]]
+url = "https://pypi.org/simple"
+verify_ssl = true
+name = "pypi"
+
+[packages]
+package-name = {file = "."}
+
+[dev-packages]
+package-name = {extras = ["doc", "test"], file = ".", editable = true}
+
+[IDE]
+neovim = "*"
+
+[scripts]
+test = 'bash -c "$(pipenv --where)/scripts/run_tests.sh $@"'
+build-docs = 'bash -c "cd $(pipenv --where)/docs && make clean && rm -rf source/_autosummary && make html"'
