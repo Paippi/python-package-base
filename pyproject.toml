@@ -32,7 +32,7 @@ authors = [
     {name = "Samuli Piippo", email = "28383147+Paippi@users.noreply.github.com "},
 ]
 
-license = "LicenseRef-Proprietary"
+license = "Unlicense"
 license-files = [
     "LICENSE"
 ]
