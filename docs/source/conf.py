@@ -14,11 +14,7 @@ import toml
 with open("../../pyproject.toml") as f:
     config = toml.load(f)
 
-with open("../../LICENSE") as f:
-    license = f.read()
-
 project = config["project"]["name"]
-copyright = license
 author = config["project"]["maintainers"][0]["name"]
 
 # -- General configuration ---------------------------------------------------
